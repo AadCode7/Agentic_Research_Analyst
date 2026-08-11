@@ -27,3 +27,4 @@ reportlab
 python-docx
 passlib
 bcrypt<5
+jinja2
