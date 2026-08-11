@@ -72,7 +72,11 @@ class ReportService:
     @staticmethod
     def download_file(file_name: str):
         """Download generated report."""
-        report_dir = os.path.join(os.getcwd(), "generated_report")
+        report_dir = os.path.join("/tmp", "generated_report")
+
+        if not os.path.exists(report_dir):
+            return {"error": f"Report directory does not exist yet."}
+            
         for root, _, files in os.walk(report_dir):
             if file_name in files:
                 return FileResponse(
