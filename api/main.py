@@ -9,12 +9,16 @@ from datetime import datetime
 
 app = FastAPI(title="Autonomous Report Generator UI")
 
+# 1. Base directory pointing to the current file's folder (api/)
 BASE_DIR = Path(__file__).resolve().parent
-PROJECT_ROOT = BASE_DIR.parents[1]
-STATIC_DIR = PROJECT_ROOT / "static"
+
+# 2. Force the static directory directly into the writable serverless /tmp folder
+STATIC_DIR = Path("/tmp/static")
 STATIC_DIR.mkdir(exist_ok=True)
 
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+
+# 3. Safely look inside the api/templates directory relative to BASE_DIR
 templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
 app.templates = templates  # so templates accessible inside router
 
@@ -32,7 +36,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-#health check have been added
+# health check have been added
 @app.get("/health")
 async def health_check():
     """Health check endpoint for container orchestration"""
