@@ -4,7 +4,7 @@ from passlib.context import CryptContext
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-DATABASE_URL = "sqlite:///./users.db"
+DATABASE_URL = "postgresql://postgres.pxgwnedopdtoczxurhlp:[@Rgosgodaht07]@aws-0-ap-northeast-2.pooler.supabase.com:6543/postgres"
 
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
