@@ -2,10 +2,10 @@ import uuid
 import os
 from fastapi.responses import FileResponse
 
-from research_analyst.utils.model_loader import ModelLoader
-from research_analyst.workflows.report_generator_workflow import AutonomousReportGenerator
-from research_analyst.logger import GLOBAL_LOGGER
-from research_analyst.exception.custom_exception import ResearchAnalystException
+from utils.model_loader import ModelLoader
+from workflows.report_generator_workflow import AutonomousReportGenerator
+from logger import GLOBAL_LOGGER
+from exception.custom_exception import ResearchAnalystException
 
 from langgraph.checkpoint.memory import MemorySaver
 
