@@ -5,8 +5,9 @@ import structlog
 
 class CustomLogger:
     def __init__(self, log_dir="logs"):
-        # Ensure logs directory exists
-        self.logs_dir = os.path.join(os.getcwd(), log_dir)
+        self.logs_dir = os.path.join("/tmp", log_dir)
+
+        # 3. Create the directory safely
         os.makedirs(self.logs_dir, exist_ok=True)
 
         # Timestamped log file (for persistence)
@@ -16,19 +17,26 @@ class CustomLogger:
     def get_logger(self, name=__file__):
         logger_name = os.path.basename(name)
 
-        # Configure logging for console + file (both JSON)
-        file_handler = logging.FileHandler(self.log_file_path)
-        file_handler.setLevel(logging.INFO)
-        file_handler.setFormatter(logging.Formatter("%(message)s"))  # Raw JSON lines
+        # Define active handlers list
+        handlers = []
 
+        # Console handler is always safely available everywhere
         console_handler = logging.StreamHandler()
         console_handler.setLevel(logging.INFO)
         console_handler.setFormatter(logging.Formatter("%(message)s"))
+        handlers.append(console_handler)
+
+        # 4. File Handler initialization
+        # Attach the file handler to the temporary partition path
+        file_handler = logging.FileHandler(self.log_file_path)
+        file_handler.setLevel(logging.INFO)
+        file_handler.setFormatter(logging.Formatter("%(message)s"))  # Raw JSON lines
+        handlers.append(file_handler)
 
         logging.basicConfig(
             level=logging.INFO,
             format="%(message)s",  # Structlog will handle JSON rendering
-            handlers=[console_handler, file_handler]
+            handlers=handlers
         )
 
         # Configure structlog for JSON structured logging
@@ -49,7 +57,3 @@ if __name__ == "__main__":
     logger = CustomLogger().get_logger(__file__)
     logger.info("User uploaded a file", user_id=123, filename="report.pdf")
     logger.error("Failed to process PDF", error="File not found", user_id=123)
-    
-    
-# Create a production-ready Python custom logger class that automatically creates a logs/ directory if it does not already exist and generates a timestamp-based log file name for persistent logging. The logger should log messages to both the console and a file simultaneously. Use the structlog library to implement structured JSON logging. Ensure that each log entry includes an ISO 8601 UTC timestamp and the log level in the output. The logs must be rendered in proper JSON format. The logger should support passing additional contextual fields such as user_id, filename, error, or any custom metadata dynamically. Finally, the class should return a reusable logger instance that can be used across the application.
-
