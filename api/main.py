@@ -4,7 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
 import os
-from research_analyst.api.routes import report_routes
+from api.routes import report_routes
 from datetime import datetime
 
 app = FastAPI(title="Autonomous Report Generator UI")
