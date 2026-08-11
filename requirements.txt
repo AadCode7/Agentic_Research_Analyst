@@ -28,3 +28,8 @@ python-docx
 passlib
 bcrypt<5
 jinja2
+tavily-python
+uvicorn
+aiofiles>=23.2.1
+sqlalchemy==2.0.43
+python-multipart
