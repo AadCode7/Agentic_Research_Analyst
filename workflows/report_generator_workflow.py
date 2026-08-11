@@ -20,21 +20,21 @@ from docx import Document
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 
-from research_analyst.schemas.models import (
+from schemas.models import (
     Perspectives,
     GenerateAnalystsState,
     ResearchGraphState,
 )
 
-from research_analyst.utils.model_loader import ModelLoader
-from research_analyst.workflows.interview_workflow import InterviewGraphBuilder
-from research_analyst.prompt_lib.prompt_locator import (
+from utils.model_loader import ModelLoader
+from workflows.interview_workflow import InterviewGraphBuilder
+from prompt_lib.prompt_locator import (
     CREATE_ANALYSTS_PROMPT,
     INTRO_CONCLUSION_INSTRUCTIONS,
     REPORT_WRITER_INSTRUCTIONS,
 )
-from research_analyst.logger import GLOBAL_LOGGER
-from research_analyst.exception.custom_exception import ResearchAnalystException
+from logger import GLOBAL_LOGGER
+from exception.custom_exception import ResearchAnalystException
 
 class AutonomousReportGenerator:
     def __init__(self, llm):
