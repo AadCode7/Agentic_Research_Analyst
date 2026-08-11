@@ -6,8 +6,8 @@ from typing import Optional
 from jinja2 import Template
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
-project_root = os.path.abspath(os.path.join(current_dir, "../../"))
-sys.path.append(project_root)
+#project_root = os.path.abspath(os.path.join(current_dir, "../../"))
+#sys.path.append(project_root)
 
 
 from langgraph.types import Send
@@ -175,8 +175,8 @@ class AutonomousReportGenerator:
             safe_topic = re.sub(r'[\\/*?:"<>|]', "_", topic)
             base_name = f"{safe_topic.replace(' ', '_')}_{timestamp}"
 
-            project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
-            root_dir = os.path.join(project_root, "generated_report")
+            #project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
+            root_dir = os.path.join("/tmp, "generated_report")
 
             # Create subfolder for this report
             report_folder = os.path.join(root_dir, base_name)
