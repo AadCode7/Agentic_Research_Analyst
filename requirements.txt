@@ -34,3 +34,4 @@ aiofiles>=23.2.1
 sqlalchemy==2.0.43
 python-multipart
 psycopg2-binary
+starlette
