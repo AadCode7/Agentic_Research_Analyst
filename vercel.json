@@ -3,7 +3,17 @@
   "functions": {
     "main.py": {
       "maxDuration": 300,
-      "includeFiles": "static/**"
+      "includeFiles": "app/templates/**"
     }
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/static/(.*)",
+      "destination": "/static/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/main.py"
+    }
+  ]
 }
