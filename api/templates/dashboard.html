@@ -2,61 +2,100 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Dashboard | AI Report Generator</title>
-  <link rel="stylesheet" href="/static/css/styles.css" />
-  <style>
-    /* Spinner overlay styling */
-    #spinner-overlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(3px);
-      z-index: 9999;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      color: white;
-      font-family: sans-serif;
-    }
-
-    .spinner {
-      border: 6px solid #f3f3f3;
-      border-top: 6px solid #3498db;
-      border-radius: 50%;
-      width: 70px;
-      height: 70px;
-      animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#7047eb" />
+  <title>Dashboard | Autonomous Research Analyst</title>
+  <link rel="stylesheet" href="./static/css/styles.css" />
 </head>
-
 <body>
-  <div class="dashboard-container" style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 24px; gap: 16px;">
-    <h2 style="margin: 0; text-align: center;">Welcome, {{ user }} 👋</h2>
+  <main class="page-shell dashboard-wrap">
+    <div class="topbar">
+      <a href="/" class="brand" aria-label="Autonomous Research Analyst home">
+        <span class="brand-mark"><span class="brand-dot">✦</span></span>
+        <span>Autonomous Research Analyst</span>
+      </a>
+      <div class="live-pill">Research engine ready</div>
+    </div>
 
-    <form id="generateForm" action="/generate_report" method="post" style="width: 100%; max-width: 480px; display: flex; flex-direction: column; gap: 8px;">
-      <label for="topic">Enter Report Topic:</label>
-      <input type="text" id="topic" name="topic" required placeholder="e.g. GenAI in Healthcare" />
-      <button type="submit">Generate Report</button>
-    </form>
-  </div>
+    <section class="dashboard-grid">
+      <div class="hero-panel">
+        <div class="hero-copy">
+          <p class="eyebrow">Welcome, {{ user }}</p>
+          <h1>What should we investigate?</h1>
+          <p class="subtitle">Give the analyst a topic and it will turn the research process into a structured report. Start broad, or ask something specific.</p>
 
-  <!-- Spinner overlay -->
-  <div id="spinner-overlay" style="display: none;">
-    <div class="spinner"></div>
-    <p>Generating your AI report... please wait</p>
+          <div class="signal-row" aria-label="Capabilities">
+            <span class="signal"><span class="signal-dot"></span> Recent information</span>
+            <span class="signal"><span class="signal-dot" style="background:var(--violet);"></span> Multi-step analysis</span>
+            <span class="signal"><span class="signal-dot" style="background:var(--coral);"></span> Downloadable report</span>
+          </div>
+        </div>
+
+        <div class="insight-grid" aria-label="Research workflow">
+          <article class="insight-card">
+            <div class="insight-icon">⌁</div>
+            <strong>Discover</strong>
+            <span>Find the signals that matter now.</span>
+          </article>
+          <article class="insight-card">
+            <div class="insight-icon">◈</div>
+            <strong>Analyze</strong>
+            <span>Connect evidence into a coherent view.</span>
+          </article>
+          <article class="insight-card">
+            <div class="insight-icon">↗</div>
+            <strong>Deliver</strong>
+            <span>Turn the result into a polished report.</span>
+          </article>
+        </div>
+      </div>
+
+      <div class="surface generate-card">
+        <div class="card-kicker">
+          <p class="eyebrow" style="margin:0;">New analysis</p>
+          <span class="live-pill">Live workflow</span>
+        </div>
+        <h2>Give the analyst a topic.</h2>
+        <p class="subtitle">A good topic is specific enough to research, but broad enough to uncover useful signals.</p>
+
+        <form id="generateForm" action="/generate_report" method="post" class="form-stack" style="margin-top:22px;">
+          <div class="field">
+            <label class="topic-label" for="topic">Report topic</label>
+            <input class="topic-input" type="text" id="topic" name="topic" required placeholder="e.g. GenAI in Healthcare" autocomplete="off" />
+          </div>
+          <button class="primary-btn" type="submit">Generate report <span aria-hidden="true">↗</span></button>
+        </form>
+
+        <div class="prompt-hints" aria-label="Topic examples">
+          <button class="prompt-chip" type="button" data-topic="The impact of agentic AI on enterprise software in 2026">Agentic AI in enterprise software</button>
+          <button class="prompt-chip" type="button" data-topic="Current trends in AI regulation and their impact on startups">AI regulation and startups</button>
+          <button class="prompt-chip" type="button" data-topic="Recent developments in semiconductor supply chains and AI infrastructure">Semiconductor supply chains</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="spinner-overlay" aria-live="polite" aria-label="Generating report">
+    <div class="loading-card">
+      <div class="spinner" aria-hidden="true"></div>
+      <div class="loading-label">Building your research report</div>
+      <p>Gathering recent information, analyzing the topic, and preparing the next stage.</p>
+      <div class="loading-orbit" aria-hidden="true"><span></span><span></span><span></span></div>
+    </div>
   </div>
 
   <script>
     const form = document.getElementById("generateForm");
     const spinner = document.getElementById("spinner-overlay");
+    const topic = document.getElementById("topic");
+    const chips = document.querySelectorAll(".prompt-chip");
+
+    chips.forEach((chip) => {
+      chip.addEventListener("click", () => {
+        topic.value = chip.dataset.topic;
+        topic.focus();
+      });
+    });
 
     form.addEventListener("submit", function (event) {
       event.preventDefault();
