@@ -4,16 +4,104 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#7047eb" />
-  <title>Report Progress | Autonomous Research Analyst</title>
+  <title>Report Progress | Agentic Research Analyst</title>
   <link rel="stylesheet" href="/static/css/styles.css"/>
+  <style>
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      min-height: 40px;
+      padding: 9px 15px;
+      border-radius: 12px;
+      border: 1px solid rgba(24, 25, 39, 0.10);
+      background: rgba(255, 255, 255, 0.72);
+      color: #24233a;
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 700;
+      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, border-color 180ms ease;
+    }
+    .nav-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(64, 45, 115, 0.12);
+      background: #fff;
+    }
+    .nav-btn:focus-visible {
+      outline: 3px solid rgba(112, 71, 235, 0.28);
+      outline-offset: 3px;
+    }
+    .nav-btn-dashboard {
+      color: #5b40b6;
+      border-color: rgba(112, 71, 235, 0.18);
+      background: rgba(247, 244, 255, 0.88);
+    }
+    .nav-btn-dashboard:hover {
+      background: #f3efff;
+      border-color: rgba(112, 71, 235, 0.30);
+    }
+    .nav-btn-danger {
+      color: #b83f4d;
+      border-color: rgba(184, 63, 77, 0.17);
+      background: rgba(255, 247, 248, 0.80);
+    }
+    .nav-btn-danger:hover {
+      background: #fff1f3;
+      border-color: rgba(184, 63, 77, 0.30);
+    }
+    .completion-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 26px;
+    }
+    .completion-actions .download-btn,
+    .completion-actions .nav-btn {
+      margin: 0;
+    }
+    @media (max-width: 620px) {
+      .topbar-actions .nav-btn {
+        padding: 9px 12px;
+      }
+      .topbar-actions .nav-btn .nav-label {
+        display: none;
+      }
+      .completion-actions {
+        flex-direction: column;
+      }
+      .completion-actions > * {
+        width: 100%;
+        box-sizing: border-box;
+        justify-content: center;
+      }
+    }
+  </style>
 </head>
 <body>
   <main class="report-shell">
     <div class="topbar">
-      <a href="/" class="brand" aria-label="Autonomous Research Analyst home">
+      <a href="/" class="brand" aria-label="Agentic Research Analyst home">
         <span class="brand-mark"><span class="brand-dot">✦</span></span>
-        <span>Autonomous Research Analyst</span>
+        <span>Agentic Research Analyst</span>
       </a>
+
+      <div class="topbar-actions">
+        <a href="/dashboard" class="nav-btn nav-btn-dashboard" aria-label="Return to dashboard">
+          <span aria-hidden="true">←</span>
+          <span class="nav-label">Dashboard</span>
+        </a>
+
+        <a href="/logout" class="nav-btn nav-btn-danger" aria-label="Sign out">
+          <span aria-hidden="true">↪</span>
+          <span class="nav-label">Sign out</span>
+        </a>
+      </div>
     </div>
 
     <section class="surface report-card">
@@ -51,9 +139,17 @@
           <h2>Your final report is ready.</h2>
           <p class="subtitle">The research workflow finished successfully. Choose the format you want to download.</p>
 
-          <div class="downloads">
+          <div class="completion-actions">
             <a href="/download/{{ doc_path | basename }}" class="download-btn">↓ Download DOCX</a>
             <a href="/download/{{ pdf_path | basename }}" class="download-btn">↘ Download PDF</a>
+            <a href="/dashboard" class="nav-btn nav-btn-dashboard">
+              <span aria-hidden="true">←</span>
+              <span>Back to dashboard</span>
+            </a>
+            <a href="/logout" class="nav-btn nav-btn-danger">
+              <span aria-hidden="true">↪</span>
+              <span>Sign out</span>
+            </a>
           </div>
         </div>
       {% endif %}
@@ -72,6 +168,7 @@
   <script>
     const fbForm = document.getElementById("feedbackForm");
     const fbSpinner = document.getElementById("spinner-overlay");
+
     if (fbForm && fbSpinner) {
       fbForm.addEventListener("submit", () => {
         fbSpinner.style.display = "flex";
