@@ -4,17 +4,105 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#7047eb" />
-  <title>Dashboard | Autonomous Research Analyst</title>
+  <title>Dashboard | Agentic Research Analyst</title>
   <link rel="stylesheet" href="/static/css/styles.css" />
+  <style>
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .user-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 40px;
+      padding: 8px 12px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.70);
+      border: 1px solid rgba(24, 25, 39, 0.08);
+      color: #4f4d62;
+      font-size: 0.84rem;
+      font-weight: 700;
+    }
+    .user-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #14a995;
+      box-shadow: 0 0 0 4px rgba(20, 169, 149, 0.12);
+    }
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      min-height: 40px;
+      padding: 9px 15px;
+      border-radius: 12px;
+      border: 1px solid rgba(24, 25, 39, 0.10);
+      background: rgba(255, 255, 255, 0.72);
+      color: #24233a;
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 700;
+      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, border-color 180ms ease;
+    }
+    .nav-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(64, 45, 115, 0.12);
+      background: #fff;
+    }
+    .nav-btn:focus-visible {
+      outline: 3px solid rgba(112, 71, 235, 0.28);
+      outline-offset: 3px;
+    }
+    .nav-btn-danger {
+      color: #b83f4d;
+      border-color: rgba(184, 63, 77, 0.17);
+      background: rgba(255, 247, 248, 0.80);
+    }
+    .nav-btn-danger:hover {
+      background: #fff1f3;
+      border-color: rgba(184, 63, 77, 0.30);
+    }
+    @media (max-width: 720px) {
+      .user-pill .user-name {
+        display: none;
+      }
+    }
+    @media (max-width: 560px) {
+      .user-pill {
+        display: none;
+      }
+      .nav-btn {
+        padding: 9px 12px;
+      }
+      .nav-btn .nav-label {
+        display: none;
+      }
+    }
+  </style>
 </head>
 <body>
   <main class="page-shell dashboard-wrap">
     <div class="topbar">
-      <a href="/" class="brand" aria-label="Autonomous Research Analyst home">
+      <a href="/" class="brand" aria-label="Agentic Research Analyst home">
         <span class="brand-mark"><span class="brand-dot">✦</span></span>
-        <span>Autonomous Research Analyst</span>
+        <span>Agentic Research Analyst</span>
       </a>
-      <div class="live-pill">Research engine ready</div>
+
+      <div class="topbar-actions">
+        <div class="user-pill" aria-label="Signed-in user">
+          <span class="user-dot" aria-hidden="true"></span>
+          <span class="user-name">{{ user }}</span>
+        </div>
+
+        <a href="/logout" class="nav-btn nav-btn-danger" aria-label="Sign out">
+          <span aria-hidden="true">↪</span>
+          <span class="nav-label">Sign out</span>
+        </a>
+      </div>
     </div>
 
     <section class="dashboard-grid">
