@@ -2,92 +2,73 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Report Progress | AI Report Generator</title>
-  <link rel="stylesheet" href="/static/css/styles.css" />
-
-  <!-- Spinner styling -->
-  <style>
-    #spinner-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(3px);
-      z-index: 9999;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      color: white;
-      font-family: sans-serif;
-    }
-
-    .spinner {
-      border: 6px solid #f3f3f3;
-      border-top: 6px solid #3498db;
-      border-radius: 50%;
-      width: 70px;
-      height: 70px;
-      animation: spin 1s linear infinite;
-      margin-bottom: 15px;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#7047eb" />
+  <title>Report Progress | Autonomous Research Analyst</title>
+  <link rel="stylesheet" href="./static/css/styles.css"/>
 </head>
-
 <body>
-  <div class="report-container">
-    <div class="card">
-      <h2>📄 Topic: {{ topic }}</h2>
+  <main class="report-shell">
+    <div class="topbar">
+      <a href="/" class="brand" aria-label="Autonomous Research Analyst home">
+        <span class="brand-mark"><span class="brand-dot">✦</span></span>
+        <span>Autonomous Research Analyst</span>
+      </a>
+    </div>
+
+    <section class="surface report-card">
+      <div class="report-head">
+        <div>
+          <span class="topic-badge">Research topic</span>
+          <h1 class="report-title">{{ topic }}</h1>
+        </div>
+        {% if pdf_path %}
+          <div class="success-mark" aria-hidden="true">✓</div>
+        {% endif %}
+      </div>
 
       {% if not pdf_path %}
-        <p class="subtitle">Your AI-generated report is ready! You can refine it below </p>
-        
-        <!-- Feedback form -->
-        <form id="feedbackForm" method="post" action="/submit_feedback">
-          <!-- Hidden topic -->
-          <input type="hidden" name="topic" value="{{ topic }}">
-          <!-- Hidden thread_id (needed for workflow continuity) -->
-          <input type="hidden" name="thread_id" value="{{ thread_id }}">
-          
-          <!-- Feedback box -->
-          <textarea 
-            name="feedback" 
-            rows="6" 
-            placeholder="Enter feedback here...">{{ feedback }}</textarea>
-          
-          <!-- Submit button -->
-          <button type="submit">Submit Feedback</button>
-        </form>
+        <div class="feedback-area">
+          <p class="subtitle">Your AI-generated report is ready for refinement. Tell the analyst what you want to improve and the workflow will continue from the existing thread.</p>
 
-        <p class="note">
-          💡 Tip: Provide specific feedback like “Add more technical explanation” or “Focus on real-world examples”.
-        </p>
+          <form id="feedbackForm" method="post" action="/submit_feedback" class="form-stack">
+            <input type="hidden" name="topic" value="{{ topic }}">
+            <input type="hidden" name="thread_id" value="{{ thread_id }}">
 
-      {% else %}
-        <h3>Final Report Ready!</h3>
-        <div class="downloads">
-          <a href="/download/{{ doc_path | basename }}" class="download-btn">⬇️ Download DOCX</a>
-          <a href="/download/{{ pdf_path | basename }}" class="download-btn">📘 Download PDF</a>
+            <div class="field">
+              <label for="feedback">What should change?</label>
+              <textarea id="feedback" name="feedback" rows="6" placeholder="For example: Add more technical explanation, compare the main approaches, or focus on real-world examples.">{{ feedback }}</textarea>
+            </div>
+
+            <button class="primary-btn" type="submit">Submit feedback <span aria-hidden="true">→</span></button>
+          </form>
+
+          <p class="tip">💡 Specific feedback produces better refinement. Mention the section, depth, comparison, audience, or examples you want changed.</p>
         </div>
-        <p class="subtitle">Your report was successfully generated</p>
+      {% else %}
+        <div style="margin-top:28px;">
+          <p class="eyebrow">Complete</p>
+          <h2>Your final report is ready.</h2>
+          <p class="subtitle">The research workflow finished successfully. Choose the format you want to download.</p>
+
+          <div class="downloads">
+            <a href="/download/{{ doc_path | basename }}" class="download-btn">↓ Download DOCX</a>
+            <a href="/download/{{ pdf_path | basename }}" class="download-btn">↘ Download PDF</a>
+          </div>
+        </div>
       {% endif %}
+    </section>
+  </main>
+
+  <div id="spinner-overlay" aria-live="polite" aria-label="Processing feedback">
+    <div class="loading-card">
+      <div class="spinner" aria-hidden="true"></div>
+      <div class="loading-label">Refining the report</div>
+      <p>Applying your feedback and preparing the next version.</p>
+      <div class="loading-orbit" aria-hidden="true"><span></span><span></span><span></span></div>
     </div>
   </div>
 
-  <!-- Spinner overlay -->
-  <div id="spinner-overlay">
-    <div class="spinner"></div>
-    <p>Processing feedback... please wait</p>
-  </div>
-
-  <!-- Spinner script -->
   <script>
     const fbForm = document.getElementById("feedbackForm");
     const fbSpinner = document.getElementById("spinner-overlay");
