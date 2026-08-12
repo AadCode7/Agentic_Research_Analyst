@@ -286,7 +286,7 @@ input:focus, textarea:focus {
 }
 .signal-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 0 4px rgba(27,185,166,.13); }
 
-.insight-grid { position: absolute; left: clamp(30px, 5vw, 56px); right: clamp(30px, 5vw, 56px); top: 140px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; z-index: 2; }
+.insight-grid { position: absolute; left: clamp(30px, 5vw, 56px); right: clamp(30px, 5vw, 56px); bottom: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; z-index: 2; }
 .insight-card { background: rgba(255,255,255,.88); border: 1px solid rgba(255,255,255,.95); border-radius: 20px; padding: 16px; box-shadow: var(--shadow-soft); animation: reveal .7s both; }
 .insight-card:nth-child(2) { animation-delay: .12s; }
 .insight-card:nth-child(3) { animation-delay: .24s; }
