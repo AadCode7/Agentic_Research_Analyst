@@ -108,7 +108,7 @@
       <div class="report-head">
         <div>
           <span class="topic-badge">Research topic</span>
-          <h1 class="report-title">{{ topic }}</h1>
+          <h2 class="report-title">{{ topic }}</h2>
         </div>
         {% if pdf_path %}
           <div class="success-mark" aria-hidden="true">✓</div>
@@ -128,10 +128,10 @@
               <textarea id="feedback" name="feedback" rows="6" placeholder="For example: Add more technical explanation, compare the main approaches, or focus on real-world examples.">{{ feedback }}</textarea>
             </div>
 
-            <button class="primary-btn" type="submit">Submit feedback <span aria-hidden="true">→</span></button>
+            <button class="primary-btn" type="submit">Refine<span aria-hidden="true">→</span></button>
           </form>
 
-          <p class="tip">💡 Specific feedback produces better refinement. Mention the section, depth, comparison, audience, or examples you want changed.</p>
+          <p class="tip">💡 Specific points produces better refinement. Mention the section, depth, comparison, audience, or examples you want emphasized</p>
         </div>
       {% else %}
         <div style="margin-top:28px;">
