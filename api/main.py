@@ -11,13 +11,20 @@ app = FastAPI(title="Autonomous Report Generator UI")
 
 # 1. Base directory pointing to the current file's folder (api/)
 BASE_DIR = Path(__file__).resolve().parent
+PROJECT_ROOT = BASE_DIR.parent
 
-# 2. Force the static directory directly into the writable serverless /tmp folder
-STATIC_DIR = Path("/tmp/static")
-STATIC_DIR.mkdir(exist_ok=True)
 
-app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+# ---------------------------------------------------------
+# Static files
+# ---------------------------------------------------------
 
+STATIC_DIR = PROJECT_ROOT / "static"
+
+app.mount(
+    "/static",
+    StaticFiles(directory=str(STATIC_DIR)),
+    name="static",
+)
 # 3. Safely look inside the api/templates directory relative to BASE_DIR
 templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
 app.templates = templates  # so templates accessible inside router
