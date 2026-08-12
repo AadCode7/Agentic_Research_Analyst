@@ -2,85 +2,91 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Login | Autonomous Report Generator</title>
-  <link rel="stylesheet" href="/static/css/styles.css" />
-
-  <style>
-    .password-wrapper {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .toggle-password {
-      position: absolute;
-      right: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      cursor: pointer;
-      font-size: 1.1rem;
-      color: #475569;
-      transition: color 0.2s ease;
-      user-select: none;
-    }
-
-    .toggle-password:hover {
-      color: #2563eb;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#7047eb" />
+  <title>Login | Autonomous Research Analyst</title>
+  <link rel="stylesheet" href="./static/css/styles.css" />
 </head>
-
 <body>
-  <div class="auth-container">
-    <div class="auth-card">
-      <h2>🔐 Login</h2>
+  <main class="page-shell">
+    <div class="topbar">
+      <a href="/" class="brand" aria-label="Autonomous Research Analyst home">
+        <span class="brand-mark"><span class="brand-dot">✦</span></span>
+        <span>Agentic Research Analyst</span>
+      </a>
+    </div>
 
-      {% if error %}
-        <p class="error">{{ error }}</p>
-      {% endif %}
+    <section class="auth-layout" aria-label="Login">
+      <div class="auth-visual">
+        <div class="visual-top">
+          <p class="eyebrow" style="color:#fff;">Research, without the hassel</p>
+          <div class="visual-title">
+            <h2>Turn a question into a report.</h2>
+            <p>Explore recent information, connect the signals, and turn the result into a polished research report with an agentic workflow.</p>
+          </div>
+          <div class="float-stack" aria-label="Workflow highlights">
+            <div class="float-card">
+              <div class="float-icon">⌁</div>
+              <div><strong>Recent information</strong><span>Find fresh sources and relevant signals.</span></div>
+            </div>
+            <div class="float-card">
+              <div class="float-icon">◈</div>
+              <div><strong>Agentic analysis</strong><span>Reason across sources instead of just summarizing.</span></div>
+            </div>
+            <div class="float-card">
+              <div class="float-icon">↗</div>
+              <div><strong>Report-ready output</strong><span>Move from research to a usable document.</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="visual-bottom">
+          <small style="color:rgba(255,255,255,.72);">Built for focused research workflows</small>
+        </div>
+      </div>
 
-      <form method="post" action="/login">
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          required
-        />
-
-        <div class="password-wrapper">
-          <input
-            type="password"
-            name="password"
-            id="login-password"
-            placeholder="Password"
-            required
-          />
-          <span class="toggle-password" id="toggleLoginPassword">👁</span>
+      <div class="surface auth-form-card">
+        <div class="form-head">
+          <p class="eyebrow">Welcome back</p>
+          <h2>Sign in and start researching.</h2>
+          <p class="subtitle">Your workspace is ready for the next research question.</p>
         </div>
 
-        <button type="submit">Login</button>
-      </form>
+        {% if error %}
+          <p class="error" role="alert">{{ error }}</p>
+        {% endif %}
 
-      <p class="switch">
-        Don’t have an account?
-        <a href="/signup">Signup here</a>
-      </p>
-    </div>
-  </div>
+        <form method="post" action="/login" class="form-stack">
+          <div class="field">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Your username" autocomplete="username" required />
+          </div>
+
+          <div class="field">
+            <label for="login-password">Password</label>
+            <div class="password-wrapper">
+              <input type="password" name="password" id="login-password" placeholder="Your password" autocomplete="current-password" required />
+              <button class="toggle-password" type="button" id="toggleLoginPassword" aria-label="Show password" title="Show password">👁</button>
+            </div>
+          </div>
+
+          <button class="primary-btn" type="submit">Login <span aria-hidden="true">→</span></button>
+        </form>
+
+        <p class="switch">Don’t have an account? <a class="secondary-link" href="/signup">Create one</a></p>
+      </div>
+    </section>
+  </main>
 
   <script>
     const toggleLoginPassword = document.getElementById("toggleLoginPassword");
     const loginPassword = document.getElementById("login-password");
 
     toggleLoginPassword.addEventListener("click", () => {
-      const type =
-        loginPassword.getAttribute("type") === "password"
-          ? "text"
-          : "password";
+      const type = loginPassword.getAttribute("type") === "password" ? "text" : "password";
       loginPassword.setAttribute("type", type);
-      toggleLoginPassword.textContent =
-        type === "password" ? "👁" : "🙈";
+      toggleLoginPassword.textContent = type === "password" ? "👁" : "🙈";
+      toggleLoginPassword.setAttribute("aria-label", type === "password" ? "Show password" : "Hide password");
+      toggleLoginPassword.setAttribute("title", type === "password" ? "Show password" : "Hide password");
     });
   </script>
 </body>
