@@ -2,96 +2,94 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Signup | Autonomous Report Generator</title>
-  <link rel="stylesheet" href="/static/css/styles.css" />
-  <style>
-    .password-wrapper {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .toggle-password {
-      position: absolute;
-      right: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      cursor: pointer;
-      font-size: 1.1rem;
-      color: #475569;
-      transition: color 0.2s ease;
-    }
-
-    .toggle-password:hover {
-      color: #2563eb;
-    }
-
-    .password-hint {
-      font-size: 0.8rem;
-      color: #64748b;
-      margin-top: 4px;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#7047eb" />
+  <title>Signup | Autonomous Research Analyst</title>
+  <link rel="stylesheet" href=".static/css/styles.css" />
 </head>
 <body>
-  <div class="auth-container">
-    <div class="auth-card">
-      <h2>📄 Signup</h2>
+  <main class="page-shell">
+    <div class="topbar">
+      <a href="/" class="brand" aria-label="Autonomous Research Analyst home">
+        <span class="brand-mark"><span class="brand-dot">✦</span></span>
+        <span>Agentic Research Analyst</span>
+      </a>
+    </div>
 
-      {% if error %}
-        <p class="error">{{ error }}</p>
-      {% endif %}
+    <section class="auth-layout" aria-label="Signup">
+      <div class="auth-visual" style="background:linear-gradient(145deg,#14a995 0%,#22b5a5 46%,#7047eb 100%);">
+        <div class="visual-top">
+          <p class="eyebrow" style="color:#fff;">Build your research workspace</p>
+          <div class="visual-title">
+            <h2>Less searching. More thinking.</h2>
+            <p>Create a focused workspace for turning current information into structured analysis and downloadable reports.</p>
+          </div>
+          <div class="float-stack" aria-label="Benefits">
+            <div class="float-card">
+              <div class="float-icon">01</div>
+              <div><strong>Start with a topic</strong><span>Ask the question you actually care about.</span></div>
+            </div>
+            <div class="float-card">
+              <div class="float-icon">02</div>
+              <div><strong>Let the workflow investigate</strong><span>Gather and synthesize relevant recent information.</span></div>
+            </div>
+            <div class="float-card">
+              <div class="float-icon">03</div>
+              <div><strong>Refine the result</strong><span>Give feedback and move toward a better report.</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="visual-bottom">
+          <small style="color:rgba(255,255,255,.72);">One workspace for the full research loop</small>
+        </div>
+      </div>
 
-      <form method="post" action="/signup" onsubmit="return validateForm()">
-        <input
-          type="text"
-          name="username"
-          placeholder="Choose a username"
-          minlength="3"
-          maxlength="32"
-          required
-        />
-
-        <div class="password-wrapper">
-          <input
-            type="password"
-            name="password"
-            id="password"
-            placeholder="Choose a password"
-            minlength="6"
-            maxlength="72"
-            required
-          />
-          <span class="toggle-password" id="togglePassword">👁</span>
+      <div class="surface auth-form-card">
+        <div class="form-head">
+          <p class="eyebrow">Get started</p>
+          <h2>Create your research workspace.</h2>
+          <p class="subtitle">A simple account is all you need to begin.</p>
         </div>
 
-        <p class="password-hint">
-          Password must be 6–72 characters (bcrypt limit)
-        </p>
+        {% if error %}
+          <p class="error" role="alert">{{ error }}</p>
+        {% endif %}
 
-        <button type="submit">Create Account</button>
-      </form>
+        <form method="post" action="/signup" class="form-stack" onsubmit="return validateForm()">
+          <div class="field">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Choose a username" minlength="3" maxlength="32" autocomplete="username" required />
+          </div>
 
-      <p class="switch">
-        Already have an account?
-        <a href="/">Login</a>
-      </p>
-    </div>
-  </div>
+          <div class="field">
+            <label for="password">Password</label>
+            <div class="password-wrapper">
+              <input type="password" name="password" id="password" placeholder="Choose a password" minlength="6" maxlength="72" autocomplete="new-password" required />
+              <button class="toggle-password" type="button" id="togglePassword" aria-label="Show password" title="Show password">👁</button>
+            </div>
+            <p class="password-hint">6–72 characters. Your existing bcrypt limit is preserved.</p>
+          </div>
+
+          <button class="primary-btn" type="submit">Create account <span aria-hidden="true">→</span></button>
+        </form>
+
+        <p class="switch">Already have an account? <a class="secondary-link" href="/">Login</a></p>
+      </div>
+    </section>
+  </main>
 
   <script>
     const togglePassword = document.getElementById("togglePassword");
     const passwordField = document.getElementById("password");
 
     togglePassword.addEventListener("click", () => {
-      const type =
-        passwordField.getAttribute("type") === "password" ? "text" : "password";
+      const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
       passwordField.setAttribute("type", type);
       togglePassword.textContent = type === "password" ? "👁" : "🙈";
+      togglePassword.setAttribute("aria-label", type === "password" ? "Show password" : "Hide password");
+      togglePassword.setAttribute("title", type === "password" ? "Show password" : "Hide password");
     });
 
-    // 🧩 Frontend password validation
     function validateForm() {
       const password = passwordField.value;
       if (password.length > 72) {
