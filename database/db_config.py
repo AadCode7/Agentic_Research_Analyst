@@ -3,6 +3,8 @@ from sqlalchemy import create_engine, Column, String, Integer
 from sqlalchemy.orm import declarative_base, sessionmaker
 from passlib.context import CryptContext
 
+from sqlalchemy.pool import NullPool
+
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 DATABASE_URL = os.getenv("DATABASE_URL")
